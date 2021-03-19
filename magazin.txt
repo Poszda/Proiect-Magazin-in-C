@@ -1,0 +1,23 @@
+acadea,dulciuri,10.00,6
+turta dulce,dulciuri,0.50,198
+jeleuri,dulciuri,2.00,10
+mere,fructe,10.00,138
+pere,fructe,6.00,170
+prune,fructe,5.50,300
+ciocolata,dulciuri,5.10,6
+eugenii,dulciuri,10.30,20
+portocale,fructe,5.20,3
+biscuiti,dulciuri,1.20,150
+rosii,legume,2.40,87
+castraveti,legume,3.25,0
+bere,bautura,5.48,0
+varza,legume,2.50,100
+gica petrescu,bautura,999.69,69
+vin,bautura,42.50,100
+gin,bautura,60.20,15
+vodka,bautura,20.10,10
+tequila,bautura,10.50,20
+florin salam,manele,10.20,3
+vali vijelie,manele,10.20,0
+gina,femei de sapte stele,10.20,3
+leona,femei de sapte stele,10.30,5
