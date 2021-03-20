@@ -13,6 +13,11 @@ typedef struct produs
     int cantitate;
 
 }produs;
+
+produs v[100]; //primul element este a[1] // produse
+produs cart[100];
+char a[100][100]; //primul element este a[1] // vector de categorii
+
 void lowercase(char str[])
 {
     int i;
@@ -20,7 +25,7 @@ void lowercase(char str[])
       if(str[i]>=65&&str[i]<=90)
             str[i]=str[i]+32;
 }
-void printCart(produs cart[])
+void printCart()
 {
     printf("COSUL DE CUMPARATURI:\n\n");
     int i;
@@ -30,7 +35,7 @@ void printCart(produs cart[])
     printf("        |||||||||||        \n\n");
     printf("        %.2f RON",pret_total);
 }
-void addCart(produs cart[], produs x ,produs v[] ,char a[][100]) // daca x.cantitate == 0 prin indisponibil // si aici o problema
+void addCart(produs x)
 {
     int i, ok = 0;
     for(i=1;i<=nr_cos;i++)
@@ -56,11 +61,11 @@ void addCart(produs cart[], produs x ,produs v[] ,char a[][100]) // daca x.canti
         else
             {
                 printf("Va rugam introduceti o alta cantitate. Nu sunt disponibile %d BUC de produs\n",nr);
-                addCart(cart,x,v,a);
+                addCart(x);
             }
     }
 }
-void deleteCart(produs cart[])
+void deleteCart()
 {
     printf("INTRODUCETI NR-ul PRODUSULUI PE CARE DORITI SA IL STERGETI:\n");
     int opt;
@@ -81,7 +86,7 @@ void deleteCart(produs cart[])
     else printf("NU EXISTA UN PRODUS IN COS CU ACEST NUMAR\n");
 
 }
-void updateCart(produs cart[],produs v[])
+void updateCart()
 {
     printf("INTRODUCETI NR-ul PRODUSULUI A CARUI CANTITATE DORITI SA O ACTUALIZATI:\n");
     int opt;
@@ -109,16 +114,16 @@ void updateCart(produs cart[],produs v[])
             pret_total = pret_total - (aux * cart[opt].pret);
             pret_total = pret_total + (opt2 *cart[opt].pret);
         }
-        if(ok==1) updateCart(cart,v);
+        if(ok==1) updateCart();
 
     }
     else
         {
             printf("NU EXISTA UN PRODUS IN COS CU ACEST NUMAR\n");
-            updateCart(cart,v);
+            updateCart();
         }
 }
-void updateFile(produs cart[], produs v[])
+void updateFile()
 {
     FILE *fpointer;
     int i;int j,ok;
@@ -139,7 +144,7 @@ void updateFile(produs cart[], produs v[])
     remove("magazin.txt");
     rename("magazin2.txt","magazin.txt");
 }
-void searchProduct(produs v[],produs cart[],char a[][100])
+void searchProduct()
 {
     printf("CAUTATI DUPA DENUMIREA PRODUSULUI:\n");
     printf("0 - inapoi\n\n");
@@ -163,12 +168,12 @@ void searchProduct(produs v[],produs cart[],char a[][100])
             switch(opt)
             {
             case 1:
-                if(v[i].cantitate == 0) {printf("\nPRODUSUL ESTE MOMENTAN INDISPONIBIL\n");} //aici era o problema
-                else addCart(cart,v[i],v,a);
+                if(v[i].cantitate == 0) {printf("\nPRODUSUL ESTE MOMENTAN INDISPONIBIL\n");}
+                else addCart(v[i]);
                 break;
 
             case 2:
-                searchProduct(v,cart,a);
+                searchProduct();
                 break;
             default:
                 printf("Error\n\n");
@@ -177,11 +182,11 @@ void searchProduct(produs v[],produs cart[],char a[][100])
     if(ok==0)
     {
         printf("PRODUSUL NU EXISTA\n\n");
-        searchProduct(v,cart,a);
+        searchProduct();
     }
     }
 }
-void searchCategory(char a[][100],produs v[],produs cart[])
+void searchCategory()
 {
     printf("CAUTA DUPA CATEGORIE:\n\n");
     int i,n;
@@ -191,10 +196,10 @@ void searchCategory(char a[][100],produs v[],produs cart[])
 
    scanf("%d",&n);
    if(n==0){}
-   else if(n>0 && n<=nr_categorii) // fac un vector temporar de elementele din categoria respectiva
+   else if(n>0 && n<=nr_categorii)
    {
         int k=0;
-        produs w[100];//fac lista cu produsele din categoria "x"
+        produs w[100];//fac un vector temporar cu produsele din categoria "x"
         for(i=1;i<=nr_produse;i++)
             if(strcmp(a[n],v[i].categorie)==0)
             {
@@ -209,7 +214,7 @@ void searchCategory(char a[][100],produs v[],produs cart[])
         for(i=1;i<=k;i++)
             printf("%d - %s\n",i,w[i].nume);
         scanf("%d",&n); // indicele produsului care urmeaza sa fie ales
-        if(n==0) searchCategory(a,v,cart);
+        if(n==0) searchCategory();
         else
         {
         printf("produs: %s       categorie: %s       pret: %.2f RON       cantitate: %d BUC\n\n",w[n].nume,w[n].categorie,w[n].pret,w[n].cantitate);
@@ -222,10 +227,10 @@ void searchCategory(char a[][100],produs v[],produs cart[])
         {
         case 1:
             if(w[n].cantitate == 0) {printf("\nPRODUSUL ESTE MOMENTAN INDISPONIBIL \n");}
-            else addCart(cart,w[n],v,a);
+            else addCart(w[n]);
             break;
         case 2:
-            searchCategory(a,v,cart);
+            searchCategory();
             break;
         default:
             printf("Error\n\n");
@@ -233,7 +238,7 @@ void searchCategory(char a[][100],produs v[],produs cart[])
         }
    }
 }
-void meniu(produs v[],char a[][100],produs cart[])
+void meniu()
 {
     printf("\n");
     printf("------------------------------------------------------------\n");
@@ -251,15 +256,15 @@ void meniu(produs v[],char a[][100],produs cart[])
         case 0:
             break;
         case 1:
-            searchProduct(v,cart,a);
-            meniu(v,a,cart);//optional
+            searchProduct();
+            meniu();
             break;
         case 2:
-            searchCategory(a,v,cart);
-            meniu(v,a,cart);
+            searchCategory();
+            meniu();
             break;
         case 3:
-            printCart(cart);
+            printCart();
             printf("\n\n");
             printf("0 - EXIT\n");
             printf("1 - ACTUALIZATI CANTITATEA UNUI PRODUS DIN COS\n");
@@ -269,17 +274,17 @@ void meniu(produs v[],char a[][100],produs cart[])
             printf("-----------------------------------------------------------\n");
             scanf("%d",&OPT);
             if (OPT == 0) {}
-            else if(OPT == 1) {updateCart(cart,v);meniu(v,a,cart);}
-            else if(OPT == 2) {deleteCart(cart);meniu(v,a,cart);}
-            else if(OPT == 3) {updateFile(cart,v);printf("***COMANDA DUMNEAVOASTRA A FOST INREGISTRATA.VA MULTUMIM***");}
-            else if(OPT == 4) meniu(v,a,cart);
+            else if(OPT == 1) {updateCart();meniu();}
+            else if(OPT == 2) {deleteCart();meniu();}
+            else if(OPT == 3) {updateFile();printf("***COMANDA DUMNEAVOASTRA A FOST INREGISTRATA.VA MULTUMIM***");}
+            else if(OPT == 4) meniu();
             break;
         default:
             printf("Ati introdus o optiune inexistenta");
-            meniu(v,a,cart);
+            meniu();
         }
 }
-int finded(char a[][100],char s[],int n)
+int finded(char s[],int n) // functie ajutatoare pentru loadProducs()
 {
     int i,ok=0;
     for(i=1;i<=n;i++)
@@ -290,7 +295,7 @@ int finded(char a[][100],char s[],int n)
         }
     return ok; // daca e 0 adaug produsul in categorie
 }
-void loadProducts(produs v[],char a[][100]) // imi face un vector cu produse si un vector de char cu numele categoriilor
+void loadProducts() // imi face un vector cu produse si un vector de char cu numele categoriilor
 {
     FILE *fpointer;
     int i,j;
@@ -301,7 +306,7 @@ void loadProducts(produs v[],char a[][100]) // imi face un vector cu produse si 
     {
      i++;
      sscanf(str,"%[^,],%[^,],%f,%d",v[i].nume,v[i].categorie,&v[i].pret,&v[i].cantitate);
-     if(finded(a,v[i].categorie,j)==0) strcpy(a[++j],v[i].categorie);
+     if(finded(v[i].categorie,j)==0) strcpy(a[++j],v[i].categorie);
     }
     fclose(fpointer);
     nr_produse = i;
@@ -309,10 +314,7 @@ void loadProducts(produs v[],char a[][100]) // imi face un vector cu produse si 
 }
 int main()
 {
-produs v[100]; //primul element este a[1] // produse
-produs cart[100];
-char a[100][100]; //primul element este a[1] // vector de categorii
-loadProducts(v,a);
-meniu(v,a,cart);
+loadProducts();
+meniu();
 }
 

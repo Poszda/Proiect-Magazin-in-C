@@ -1,7 +1,7 @@
 acadea,dulciuri,10.00,6
 turta dulce,dulciuri,0.50,198
 jeleuri,dulciuri,2.00,10
-mere,fructe,10.00,138
+mere,fructe,10.00,0
 pere,fructe,6.00,170
 prune,fructe,5.50,300
 ciocolata,dulciuri,5.10,6
